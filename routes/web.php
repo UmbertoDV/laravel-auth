@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Guest\HomeController as GuestHomeController;
@@ -19,6 +20,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [GuestHomeController::class, 'index']);
 
 Route::get('/home', [AdminHomeController::class, 'index'])->middleware('auth')->name('home');
+
+Route::middleware('auth')
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function (){
+        Route::resource('cards', CardController::class)
+            ->parameters(['cards' => 'card:slug']);
+    });
+
 
 Route::middleware('auth')
     ->prefix('profile') //Tutti gli URL hanno il prefisso /profile

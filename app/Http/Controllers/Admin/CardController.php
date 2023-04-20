@@ -15,8 +15,10 @@ class CardController extends Controller
      */
     public function index()
     {
-        //
+        $cards = (Card::paginate(10));
+        return view('admin.cards.index', compact('cards'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -47,7 +49,7 @@ class CardController extends Controller
      */
     public function show(Card $card)
     {
-        //
+        return view('admin.cards.show', compact('card'));
     }
 
     /**
