@@ -16,10 +16,10 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Usando Vite -->
-    @vite(['resources/js/app.js'])
+    @vite(['resources/js/front.js'])
 </head>
 
-<body class="bg-dark">
+<body>
     <div>
         @include('layouts.partials.navbar')
         <main class="">

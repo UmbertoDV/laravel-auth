@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <div>
+    <div class="d-flex">
         @include('layouts.partials.navbar')
         <main class="container">
             <h1 class="my-5">@yield('title')</h1>
