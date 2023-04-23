@@ -22,9 +22,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('home') }}">{{ __('Home') }}</a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="{{route('admin.cards.index') }}">{{ __('Cards') }}</a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('profile.edit') }}">{{__('Profile')}}</a></a>
                 </li>

@@ -6,8 +6,11 @@
 <section class="clearfix">
   <a href="{{ route('admin.cards.index') }}" class="btn btn-primary float-end">Torna alla lista</a>
 
-  <h2 class="text-muted text-secondary mb-4">{{ $card->slug }}</h2>
-  <img src="{{ $card->image }}" alt="" width="250" class="float-start me-3 mb-1">
-  <p>{{ $card->text }}</p>
+  <div class="card">
+    <div class="card-body">
+      <img src="{{ $card->image }}" alt="" width="250" class="float-start me-3 mb-1">
+      <p>{{ $card->text }}</p>
+    </div>
+  </div>
 </section>
 @endsection

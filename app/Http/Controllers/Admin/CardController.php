@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+
 use App\Models\Card;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class CardController extends Controller
      */
     public function index()
     {
-        $cards = (Card::paginate(10));
+        $cards = Card::orderBy('updated_at', 'DESC')->paginate(10);
         return view('admin.cards.index', compact('cards'));
     }
 
@@ -27,7 +28,7 @@ class CardController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.cards.create');
     }
 
     /**
@@ -38,7 +39,15 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+
+        $card = new Card;
+        $card->fill($request->all());
+        $card->slug = Card::generateSlug($card->title);
+
+        $card->save();
+
+        return to_route('admin.cards.show', $card);
     }
 
     /**
@@ -60,7 +69,7 @@ class CardController extends Controller
      */
     public function edit(Card $card)
     {
-        //
+        return view('admin.cards.edit', compact('card'));
     }
 
     /**
@@ -72,7 +81,12 @@ class CardController extends Controller
      */
     public function update(Request $request, Card $card)
     {
-        //
+        $card->fill($request->all());
+        $card->slug = Card::generateSlug($card->title);
+        $card->save();
+
+        return to_route('admin.cards.show', $card);
+
     }
 
     /**
@@ -83,6 +97,8 @@ class CardController extends Controller
      */
     public function destroy(Card $card)
     {
-        //
+        $card->delete();
+
+        return to_route('admin.cards.index');
     }
 }
