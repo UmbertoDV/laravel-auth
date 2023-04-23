@@ -16,9 +16,21 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col">#</th>
-            <th scope="col">Titolo</th>
-            <th scope="col">Abstract</th>
+            <th scope="col"><a href="{{ route('admin.cards.index') }}?sort=id">#
+            @if ($sort == "id")
+              <i class="bi bi-arrow-down d-inline-block rotate-180"></i>
+            @endif
+            </a></th>
+            <th scope="col"><a href="{{ route('admin.cards.index') }}?sort=title">Titolo
+            @if ($sort == "title")
+              <i class="bi bi-arrow-down"></i>
+            @endif
+            </a></th>
+            <th scope="col"><a href="{{ route('admin.cards.index') }}?sort=text">Abstract
+            @if ($sort == "text")
+              <i class="bi bi-arrow-down"></i>
+            @endif
+            </a></th>
             <th scope="col">Azioni</th>
           </tr>
         </thead>

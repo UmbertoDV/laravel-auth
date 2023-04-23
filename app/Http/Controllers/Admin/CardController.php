@@ -12,12 +12,15 @@ class CardController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cards = Card::orderBy('updated_at', 'DESC')->paginate(10);
-        return view('admin.cards.index', compact('cards'));
+        $sort = (!empty($sort_request = $request->get('sort'))) ? $sort_request : "updated_at";
+
+        $cards = Card::orderBy($sort, 'DESC')->paginate(10)->withQueryString();
+        return view('admin.cards.index', compact('cards', 'sort'));
     }
 
 
