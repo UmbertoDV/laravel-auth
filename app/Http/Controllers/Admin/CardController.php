@@ -156,12 +156,56 @@ class CardController extends Controller
     public function destroy(Card $card)
     {
         $id_card = $card->id;
-        if($card->image) Storage::delete($card->image);
+        // if($card->image) Storage::delete($card->image);
 
         $card->delete();
 
         return to_route('admin.cards.index')
             ->with('message_type', "danger")
-            ->with('message_content', "Card $id_card eliminato con successo");
+            ->with('message_content', "Card $id_card spostata nel cestino");
+    }
+
+    public function trash(Request $request){
+
+        $sort = (!empty($sort_request = $request->get('sort'))) ? $sort_request : "updated_at";
+        $order = (!empty($order_request = $request->get('order'))) ? $order_request : "DESC";
+        $cards = Card::onlyTrashed()->orderBy($sort, $order)->paginate(10)->withQueryString();
+
+        return view('admin.cards.trash', compact('cards', 'sort', 'order'));
+    }
+
+        /**
+     * Force delete the specified resource from storage.
+     *
+     * @param  \App\Models\Card  $card
+     * @return \Illuminate\Http\Response
+     */
+    public function forceDelete(Int $id)
+    {
+        $card = Card::where('id', $id)->onlyTrashed()->first();
+        $id_card = $card->id;
+        if($card->image) Storage::delete($card->image);
+
+        $card->forceDelete();
+
+        return to_route('admin.cards.trash')
+            ->with('message_type', "danger")
+            ->with('message_content', "Card $id_card eliminato definitivamente");
+    }
+
+            /**
+     * Restore the specified resource from storage.
+     *
+     * @param  \App\Models\Card  $card
+     * @return \Illuminate\Http\Response
+     */
+    public function restore(Int $id)
+    {
+        $card = Card::where('id', $id)->onlyTrashed()->first();
+        $card->restore();
+
+        return to_route('admin.cards.index')
+            ->with('message_type', "danger")
+            ->with('message_content', "Card $id ripristinato");
     }
 }

@@ -25,6 +25,10 @@ Route::middleware('auth')
     ->prefix('admin')
     ->name('admin.')
     ->group(function (){
+        Route::get('/cards/trash',[CardController::class, 'trash'])->name('cards.trash');
+        Route::put('/cards/{card}/restore',[CardController::class, 'restore'])->name('cards.restore');
+        Route::delete('/cards/{card}/force-delete',[CardController::class, 'forceDelete'])->name('cards.force-delete');
+        
         Route::resource('cards', CardController::class);
             // ->parameters(['cards' => 'card:slug']);
     });

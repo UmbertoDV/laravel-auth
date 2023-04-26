@@ -6,6 +6,9 @@
     <div>
       <a class="btn btn-primary" href="{{ route('admin.cards.create') }}">Crea nuovo post</a>
     </div>
+    <div>
+      <a class="btn btn-primary" href="{{ route('admin.cards.trash') }}">Cestino</a>
+    </div>
 @endsection
 
 @section('content')
@@ -83,7 +86,6 @@
             </div>
             <div class="modal-body">
               Sei sicuro di voler eliminare il post "{{ $card->title }}"? <br>
-              L'operazione non è reversibile
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
