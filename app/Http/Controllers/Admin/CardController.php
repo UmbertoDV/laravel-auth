@@ -33,7 +33,8 @@ class CardController extends Controller
      */
     public function create()
     {
-        return view('admin.cards.create');
+        $card = new Card;
+        return view('admin.cards.form', compact('card'));
     }
 
     /**
@@ -45,6 +46,20 @@ class CardController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
+        $request->validate([
+            'title' => 'required|string|max:100',
+            'text' => 'required|string',
+            'image' => 'nullable|url',
+        ],
+        [
+            'title.required' => 'Il titolo è obbligatorio',
+            'title.string' => 'Il titolo deve essere una string',
+            'title.max' => 'Il titolo non deve superare i 100 caratteri',
+            'text.required' => 'Il testo è obbligatorio',
+            'text.string' => 'Il testo deve essere una string',
+            'image.url' => 'L\'immagine deve essere un\'url',
+        ]
+    );
 
         $card = new Card;
         $card->fill($request->all());
@@ -52,7 +67,7 @@ class CardController extends Controller
 
         $card->save();
 
-        return to_route('admin.cards.show', $card);
+        return to_route('admin.cards.show', $card)->with('message_content', "Card $card->id creata con successo");
     }
 
     /**
@@ -74,7 +89,7 @@ class CardController extends Controller
      */
     public function edit(Card $card)
     {
-        return view('admin.cards.edit', compact('card'));
+        return view('admin.cards.form', compact('card'));
     }
 
     /**
@@ -86,11 +101,26 @@ class CardController extends Controller
      */
     public function update(Request $request, Card $card)
     {
+        $request->validate([
+            'title' => 'required|string|max:100',
+            'text' => 'required|string',
+            'image' => 'nullable|url',
+        ],
+        [
+            'title.required' => 'Il titolo è obbligatorio',
+            'title.string' => 'Il titolo deve essere una string',
+            'title.max' => 'Il titolo non deve superare i 100 caratteri',
+            'text.required' => 'Il testo è obbligatorio',
+            'text.string' => 'Il testo deve essere una string',
+            'image.url' => 'L\'immagine deve essere un\'url',
+        ]
+    );
+
         $card->fill($request->all());
         $card->slug = Card::generateSlug($card->title);
         $card->save();
 
-        return to_route('admin.cards.show', $card);
+        return to_route('admin.cards.show', $card)->with('message_content', "Card $card->id modificata con successo");
 
     }
 
@@ -102,8 +132,11 @@ class CardController extends Controller
      */
     public function destroy(Card $card)
     {
+        $id_card = $card->id;
         $card->delete();
 
-        return to_route('admin.cards.index');
+        return to_route('admin.cards.index')
+            ->with('message_type', "danger")
+            ->with('message_content', "Card $id_card eliminato con successo");
     }
 }

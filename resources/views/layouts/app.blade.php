@@ -24,13 +24,20 @@
 <body>
     <div class="d-flex">
         @include('layouts.partials.navbar')
-        <main class="container">
+        <main class="container p-0">
             <div class="d-flex justify-content-between align-items-start my-5">
                 <h1 class="my-5">@yield('title')</h1>
 
                 @yield('actions')
 
             </div>
+
+            @if (session('message_content'))
+                <div class="alert alert-{{ session('message_type') ? session('message_type') : 'success' }}">
+                    {{ session('message_content') }}
+                </div>
+            @endif
+
             @yield('content')
         </main>
     </div>

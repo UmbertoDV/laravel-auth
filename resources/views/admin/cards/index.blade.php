@@ -10,7 +10,7 @@
 
 @section('content')
 <section>
-  <div class="container">
+  <div class="container p-0">
     <div class="card px-4">
 
       <table class="table table-striped">

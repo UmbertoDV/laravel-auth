@@ -4,7 +4,8 @@
 
 @section('content')
 <section class="clearfix">
-  <a href="{{ route('admin.cards.index') }}" class="btn btn-primary float-end">Torna alla lista</a>
+  <a href="{{ route('admin.cards.index') }}" class="btn btn-primary float-end mx-1">Torna alla lista</a>
+  <a href="{{ route('admin.cards.edit', $card) }}" class="btn btn-primary float-end mx-1">Modifica</a>
 
   <div class="card">
     <div class="card-body">
