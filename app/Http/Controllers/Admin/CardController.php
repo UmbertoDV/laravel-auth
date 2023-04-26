@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Card;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 
 class CardController extends Controller
 {
@@ -45,11 +47,10 @@ class CardController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'title' => 'required|string|max:100',
             'text' => 'required|string',
-            'image' => 'nullable|url',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg',
         ],
         [
             'title.required' => 'Il titolo è obbligatorio',
@@ -57,12 +58,23 @@ class CardController extends Controller
             'title.max' => 'Il titolo non deve superare i 100 caratteri',
             'text.required' => 'Il testo è obbligatorio',
             'text.string' => 'Il testo deve essere una string',
-            'image.url' => 'L\'immagine deve essere un\'url',
-        ]
-    );
+            'image.image' => 'Il file caricato deve essere un\'image',
+            'image.mimes' => 'Disponibili solo jpg, png e jpeg',
+            ]
+        );
+        
+        // dd($request->all());
+        $data = $request->all();
+        
+    if(Arr::exists($data, 'image')){
+        $path_image = Storage::put('uploads/cards', $data['image']);
+        $data['image'] = $path_image;
+    };
+
+        // dd($data);
 
         $card = new Card;
-        $card->fill($request->all());
+        $card->fill($data);
         $card->slug = Card::generateSlug($card->title);
 
         $card->save();
@@ -104,7 +116,7 @@ class CardController extends Controller
         $request->validate([
             'title' => 'required|string|max:100',
             'text' => 'required|string',
-            'image' => 'nullable|url',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg',
         ],
         [
             'title.required' => 'Il titolo è obbligatorio',
@@ -112,15 +124,25 @@ class CardController extends Controller
             'title.max' => 'Il titolo non deve superare i 100 caratteri',
             'text.required' => 'Il testo è obbligatorio',
             'text.string' => 'Il testo deve essere una string',
-            'image.url' => 'L\'immagine deve essere un\'url',
+            'image.image' => 'Il file caricato deve essere un\'image',
+            'image.mimes' => 'Disponibili solo jpg, png e jpeg',
         ]
     );
 
-        $card->fill($request->all());
+        $data = $request->all();
+
+        if(Arr::exists($data, 'image')){
+            if($card->image) Storage::delete($card->image);
+            $path_image = Storage::put('uploads/cards', $data['image']);
+            $data['image'] = $path_image;
+        };
+
+        $card->fill($data);
         $card->slug = Card::generateSlug($card->title);
         $card->save();
 
-        return to_route('admin.cards.show', $card)->with('message_content', "Card $card->id modificata con successo");
+        return to_route('admin.cards.show', $card)
+            ->with('message_content', "Card $card->id modificata con successo");
 
     }
 
@@ -133,6 +155,8 @@ class CardController extends Controller
     public function destroy(Card $card)
     {
         $id_card = $card->id;
+        if($card->image) Storage::delete($card->image);
+
         $card->delete();
 
         return to_route('admin.cards.index')

@@ -23,7 +23,7 @@ class CardSeeder extends Seeder
             $card = new Card;
             $card->title = $faker->catchPhrase();
             $card->slug = Str::of($card->title)->slug('-');
-            $card->image = $faker->imageUrl(640, 470, 'animals', true);
+            // $card->image = $faker->imageUrl(640, 470, 'animals', true);
             $card->text = $faker->paragraph(15);
             $card->save();
         }

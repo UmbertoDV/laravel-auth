@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
             $table->string('title', 100);
+            $table->boolean('published')->default(0);
             $table->string('slug', 100)->unique();
             $table->text('image')->nullable();
             $table->text('text');

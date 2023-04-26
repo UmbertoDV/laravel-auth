@@ -11,7 +11,7 @@ class Card extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title','image', 'text'];
+    protected $fillable = ['title','image', 'text', 'published'];
 
     public function getAbstract($max = 50){
         return substr($this->text, 0, $max) . "...";
@@ -35,6 +35,10 @@ class Card extends Model
 
     protected function getUpdatedAtAttribute($value){
         return date('d/m/Y H:i', strtotime($value));
+    }
+
+    public function getImageUri(){
+        return $this->image ? asset('storage/'. $this->image) : "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png";
     }
 
     protected function getCreatedAtAttribute($value){

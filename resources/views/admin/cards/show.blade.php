@@ -9,7 +9,7 @@
 
   <div class="card">
     <div class="card-body">
-      <img src="{{ $card->image }}" alt="" width="250" class="float-start me-3 mb-1">
+      <img src="{{ $card->getImageUri() }}" alt="" width="250" class="float-start me-3 mb-1">
       <p>{{ $card->text }}</p>
     </div>
   </div>
