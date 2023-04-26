@@ -32,4 +32,13 @@ class Card extends Model
 
         return $possible_slug;
     }
+
+    protected function getUpdatedAtAttribute($value){
+        return date('d/m/Y H:i', strtotime($value));
+    }
+
+    protected function getCreatedAtAttribute($value){
+        return date('d/m/Y H:i', strtotime($value));
+    }
+
 }

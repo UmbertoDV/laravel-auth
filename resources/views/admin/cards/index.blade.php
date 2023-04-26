@@ -16,21 +16,31 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th scope="col"><a href="{{ route('admin.cards.index') }}?sort=id">#
+            <th scope="col"><a href="{{ route('admin.cards.index') }}?sort=id&order={{ $sort == 'id' && $order != 'DESC' ? 'DESC' : 'ASC' }}">#
             @if ($sort == "id")
-              <i class="bi bi-arrow-down d-inline-block rotate-180"></i>
+              <i class="bi bi-arrow-down d-inline-block @if($order == 'DESC') rotate-180-my @endif"></i>
             @endif
             </a></th>
-            <th scope="col"><a href="{{ route('admin.cards.index') }}?sort=title">Titolo
+            <th scope="col"><a href="{{ route('admin.cards.index') }}?sort=title&order={{ $sort == 'title' && $order != 'DESC' ? 'DESC' : 'ASC' }}">Titolo
             @if ($sort == "title")
-              <i class="bi bi-arrow-down"></i>
+              <i class="bi bi-arrow-down d-inline-block  @if($order == 'DESC') rotate-180-my @endif"></i>
             @endif
             </a></th>
-            <th scope="col"><a href="{{ route('admin.cards.index') }}?sort=text">Abstract
+            <th scope="col"><a href="{{ route('admin.cards.index') }}?sort=text&order={{ $sort == 'text' && $order != 'DESC' ? 'DESC' : 'ASC' }}">Abstract
             @if ($sort == "text")
-              <i class="bi bi-arrow-down"></i>
+              <i class="bi bi-arrow-down d-inline-block  @if($order == 'DESC') rotate-180-my @endif"></i>
             @endif
             </a></th>
+            <th scope="col"><a href="{{ route('admin.cards.index') }}?sort=updated_at&order={{ $sort == 'updated_at' && $order != 'DESC' ? 'DESC' : 'ASC' }}">Ultima Modifica
+              @if ($sort == "updated_at")
+                <i class="bi bi-arrow-down d-inline-block  @if($order == 'DESC') rotate-180-my @endif"></i>
+              @endif
+              </a></th>
+              <th scope="col"><a href="{{ route('admin.cards.index') }}?sort=created_at&order={{ $sort == 'created_at' && $order != 'DESC' ? 'DESC' : 'ASC' }}">Creazione
+                @if ($sort == "created_at")
+                  <i class="bi bi-arrow-down d-inline-block  @if($order == 'DESC') rotate-180-my @endif"></i>
+                @endif
+                </a></th>
             <th scope="col">Azioni</th>
           </tr>
         </thead>
@@ -39,7 +49,9 @@
             <tr>
               <th scope="row">{{ $card->id }}</th>
               <td>{{ $card->title }}</td>
-              <td>{{ $card->getAbstract() }}</td>
+              <td>{{ $card->getAbstract(15) }}</td>
+              <td>{{ $card->updated_at }}</td>
+              <td>{{ $card->created_at }}</td>
               <td>
                 <a href="{{ route('admin.cards.show', $card) }}"><i class="bi bi-eye mx-2"></i></a>
                 <a href="{{ route('admin.cards.edit', $card) }}"><i class="bi bi-pencil mx-2"></i></i></a>

@@ -19,8 +19,10 @@ class CardController extends Controller
     {
         $sort = (!empty($sort_request = $request->get('sort'))) ? $sort_request : "updated_at";
 
-        $cards = Card::orderBy($sort, 'DESC')->paginate(10)->withQueryString();
-        return view('admin.cards.index', compact('cards', 'sort'));
+        $order = (!empty($order_request = $request->get('order'))) ? $order_request : "DESC";
+
+        $cards = Card::orderBy($sort, $order)->paginate(10)->withQueryString();
+        return view('admin.cards.index', compact('cards', 'sort', 'order'));
     }
 
 
