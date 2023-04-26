@@ -25,8 +25,8 @@ Route::middleware('auth')
     ->prefix('admin')
     ->name('admin.')
     ->group(function (){
-        Route::resource('cards', CardController::class)
-            ->parameters(['cards' => 'card:slug']);
+        Route::resource('cards', CardController::class);
+            // ->parameters(['cards' => 'card:slug']);
     });
 
 

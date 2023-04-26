@@ -117,6 +117,7 @@ class CardController extends Controller
             'title' => 'required|string|max:100',
             'text' => 'required|string',
             'image' => 'nullable|image|mimes:jpg,png,jpeg',
+            'is_published' => 'boolean',
         ],
         [
             'title.required' => 'Il titolo è obbligatorio',
@@ -129,20 +130,20 @@ class CardController extends Controller
         ]
     );
 
-        $data = $request->all();
+    $data = $request->all();
+    $card['slug'] = Card::generateSlug($card['title']);
+    $card['is_published'] = $request->has("is_published") ? 1 : 0;
 
-        if(Arr::exists($data, 'image')){
-            if($card->image) Storage::delete($card->image);
-            $path_image = Storage::put('uploads/cards', $data['image']);
-            $data['image'] = $path_image;
-        };
+    if(Arr::exists($data, 'image')){
+        if($card->image) Storage::delete($card->image);
+        $path_image = Storage::put('uploads/cards', $data['image']);
+        $data['image'] = $path_image;
+    };
 
-        $card->fill($data);
-        $card->slug = Card::generateSlug($card->title);
-        $card->save();
+    $card->update($data);
 
-        return to_route('admin.cards.show', $card)
-            ->with('message_content', "Card $card->id modificata con successo");
+    return to_route('admin.cards.show', $card)
+        ->with('message_content', "Card $card->id modificata con successo");
 
     }
 

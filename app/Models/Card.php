@@ -11,7 +11,7 @@ class Card extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title','image', 'text', 'published'];
+    protected $fillable = ['title','image', 'text', 'is_published'];
 
     public function getAbstract($max = 50){
         return substr($this->text, 0, $max) . "...";

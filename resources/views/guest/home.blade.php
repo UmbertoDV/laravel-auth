@@ -8,10 +8,10 @@
     <div class="row justify-content-center">
         <div class="col">
             <div class="card">
-                <div class="card-header">{{ __('User Dashboard') }}</div>
+                <div class="card-header">Card più recenti</div>
 
                 <div class="card-body">
-                    Ciao utente Guest
+                    @dump($recent_cards)
                 </div>
             </div>
         </div>

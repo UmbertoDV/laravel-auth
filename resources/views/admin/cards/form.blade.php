@@ -38,9 +38,9 @@
       </div>
 
       <div class="col-4 mb-3">
-        <label for="published" class="form-label">Pubblicato</label>
-        <input type="checkbox" name="published" id="published" class="form-check-control @error('published') is-invalid @enderror" @checked(old('published', $card->published)) value="1">
-        @error('published')
+        <label for="is_published" class="form-label">Pubblicato</label>
+        <input type="checkbox" name="is_published" id="is_published" class="form-check-control @error('is_published') is-invalid @enderror" @checked(old('is_published', $card->is_published)) value="1">
+        @error('is_published')
         <div class="invalid-feedback">
           {{ $message }}
         </div>
